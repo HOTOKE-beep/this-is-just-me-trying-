@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Hanshika 🌸</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ffd6e0, #ffe9f5);
+    overflow: hidden;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    width: 320px;
+    animation: fadeIn 1.5s ease;
+}
+
+h1 {
+    color: #ff4d88;
+}
+
+p {
+    color: #555;
+    font-size: 15px;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    background: #ff4d88;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+    margin-top: 15px;
+    color: #444;
+    font-weight: 500;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    from {transform: translateY(100vh);}
+    to {transform: translateY(-10vh);}
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card">
+        <h1>Hey Hanshika 🌸</h1>
+        <p id="text"></p>
+
+        <button onclick="nextMessage()">Tap here 💌</button>
+
+        <p id="extra" class="hidden"></p>
+    </div>
+</div>
+
+<!-- Music -->
+<audio id="music" loop>
+  <source src="zulfe.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const messages = [
+"I don’t know what’s on your mind…",
+"But I can feel something is a little off.",
+"You don’t have to explain anything.",
+"Just know… you matter a lot.",
+"And your smile? Yeah… it’s important 😊"
+];
+
+let index = 0;
+
+function typeEffect(text, element, speed = 40) {
+    element.innerHTML = "";
+    let i = 0;
+    let timer = setInterval(() => {
+        element.innerHTML += text[i];
+        i++;
+        if (i >= text.length) clearInterval(timer);
+    }, speed);
+}
+
+const textEl = document.getElementById("text");
+typeEffect(messages[0], textEl);
+
+function nextMessage() {
+    if(index === 0){
+        document.getElementById("music").play();
+    }
+
+    index++;
+    if (index < messages.length) {
+        typeEffect(messages[index], textEl);
+    } else {
+        document.getElementById("extra").classList.remove("hidden");
+        document.getElementById("extra").innerText =
+        "I just didn’t like seeing you not smile 💛";
+    }
+}
+
+// Floating hearts
+setInterval(() => {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.innerText = "💖";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}, 500);
+</script>
+
+</body>
+</html>
