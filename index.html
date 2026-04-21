@@ -29,13 +29,8 @@ body {
     width: 320px;
 }
 
-h1 {
-    color: #ff4d88;
-}
-
-p {
-    color: #555;
-}
+h1 { color: #ff4d88; }
+p { color: #555; }
 
 button {
     margin-top: 15px;
@@ -76,7 +71,7 @@ button {
     50% {opacity: 1;}
 }
 
-/* glow text */
+/* glow */
 .glow {
     color: #ff4d88;
     text-shadow: 0 0 5px #ff4d88,
@@ -142,7 +137,6 @@ function nextMessage() {
     }
 }
 
-// 🎬 cinematic transition
 function startScene2() {
     document.body.style.opacity = "0";
 
@@ -156,7 +150,7 @@ function startScene2() {
     }, 1500);
 }
 
-// 🎤 voice-style typing
+/* ✅ FIXED voice typing */
 const voiceLines = [
 "Hey…",
 "I still don’t know what’s bothering you.",
@@ -168,7 +162,8 @@ const voiceLines = [
 "And yeah…",
 "I just didn’t like seeing you not smile 🙂",
 "",
-"Just… don’t forget to smile sometimes 🙂 I’ll be back in a week—there’s something I really want to do. Take care 🤝🪷;
+"<span class='glow'>Just… don’t forget to smile sometimes 🙂 I’ll be back in a week—there’s something I really want to do. Take care 🤝🪷</span>"
+];
 
 function voiceEffect() {
     let i = 0;
@@ -178,16 +173,24 @@ function voiceEffect() {
         if (i >= voiceLines.length) return;
 
         let p = document.createElement("p");
-        p.innerHTML = "";
         box.appendChild(p);
 
         let text = voiceLines[i];
-        let j = 0;
 
+        // 🔥 FIX: handle glow line directly
+        if (text.includes("<span")) {
+            p.innerHTML = text;
+            i++;
+            setTimeout(nextLine, 1200);
+            return;
+        }
+
+        let j = 0;
         let typer = setInterval(() => {
-            p.innerHTML += text[j];
-            j++;
-            if (j >= text.length) {
+            if (j < text.length) {
+                p.innerHTML += text[j];
+                j++;
+            } else {
                 clearInterval(typer);
                 i++;
                 setTimeout(nextLine, 800);
@@ -198,7 +201,7 @@ function voiceEffect() {
     nextLine();
 }
 
-// ⭐ stars
+/* stars */
 function createStars() {
     for(let i=0;i<80;i++){
         let star=document.createElement("div");
