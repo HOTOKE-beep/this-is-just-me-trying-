@@ -75,6 +75,14 @@ button {
     0%,100% {opacity: 0.2;}
     50% {opacity: 1;}
 }
+
+/* glow text */
+.glow {
+    color: #ff4d88;
+    text-shadow: 0 0 5px #ff4d88,
+                 0 0 10px #ff4d88,
+                 0 0 20px #ff85a2;
+}
 </style>
 
 </head>
@@ -134,7 +142,7 @@ function nextMessage() {
     }
 }
 
-// 🎬 cinematic second scene (no reload)
+// 🎬 cinematic transition
 function startScene2() {
     document.body.style.opacity = "0";
 
@@ -148,7 +156,7 @@ function startScene2() {
     }, 1500);
 }
 
-// 🎤 voice typing effect
+// 🎤 voice-style typing
 const voiceLines = [
 "Hey…",
 "I still don’t know what’s bothering you.",
@@ -158,7 +166,9 @@ const voiceLines = [
 "you don’t have to carry it alone.",
 "",
 "And yeah…",
-"I just didn’t like seeing you not smile 🙂"
+"I just didn’t like seeing you not smile 🙂",
+"",
+"<span class='glow'>Just… don’t forget to smile sometimes 🙂 I’ll be back in a week—there’s something I really want to do. Take care 🤝🪷</span>"
 ];
 
 function voiceEffect() {
@@ -169,6 +179,7 @@ function voiceEffect() {
         if (i >= voiceLines.length) return;
 
         let p = document.createElement("p");
+        p.innerHTML = "";
         box.appendChild(p);
 
         let text = voiceLines[i];
