@@ -1,150 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>For Hanshika 🌸</title>
-
-<style>
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #ffd6e0, #ffe9f5);
-    overflow: hidden;
-}
-
-.container {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.card {
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    width: 320px;
-    animation: fadeIn 1.5s ease;
-}
-
-h1 {
-    color: #ff4d88;
-}
-
-p {
-    color: #555;
-    font-size: 15px;
-}
-
-button {
-    margin-top: 15px;
-    padding: 10px 20px;
-    border: none;
-    background: #ff4d88;
-    color: white;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.hidden {
-    display: none;
-    margin-top: 15px;
-    color: #444;
-    font-weight: 500;
-}
-
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0);}
-}
-
-/* Floating hearts */
-.heart {
-    position: absolute;
-    font-size: 20px;
-    animation: float 6s linear infinite;
-}
-
-@keyframes float {
-    from {transform: translateY(100vh);}
-    to {transform: translateY(-10vh);}
-}
-</style>
-
-</head>
-
 <body>
 
-<div class="container">
-    <div class="card">
-        <h1>Hey Hanshika 🌸</h1>
-        <p id="text"></p>
-
-        <button onclick="nextMessage()">Tap here 💌</button>
-
-        <p id="extra" class="hidden"></p>
-    </div>
+<div class="card">
+    <h1>For Hanshika 🪷</h1>
+    <p id="text"></p>
+    <button id="btn" onclick="nextMessage()">Tap here 💌</button>
+    <p id="extra" class="hidden"></p>
 </div>
 
-<!-- Music -->
 <audio id="music" loop>
   <source src="zulfe.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 const messages = [
-"I don’t know what’s on your mind…",
-"But I can feel something is a little off.",
-"You don’t have to explain anything.",
-"Just know… you matter a lot.",
-"And your smile? Yeah… it’s important 😊"
+    "I don’t know what’s on your mind…",
+    "But I can feel something is a little off.",
+    "You don’t have to explain anything.",
+    "Just know… you matter a lot.",
+    "And your smile? Yeah… it’s important 😊"
 ];
 
 let index = 0;
+const textEl = document.getElementById("text");
+const btnEl = document.getElementById("btn");
+const extraEl = document.getElementById("extra");
+const music = document.getElementById("music");
 
-function typeEffect(text, element, speed = 40) {
+function typeEffect(text, element) {
     element.innerHTML = "";
     let i = 0;
+    btnEl.style.pointerEvents = "none";
+    btnEl.style.opacity = "0.5";
+
     let timer = setInterval(() => {
         element.innerHTML += text[i];
         i++;
-        if (i >= text.length) clearInterval(timer);
-    }, speed);
+        if (i >= text.length) {
+            clearInterval(timer);
+            btnEl.style.pointerEvents = "auto";
+            btnEl.style.opacity = "1";
+        }
+    }, 50);
 }
 
-const textEl = document.getElementById("text");
 typeEffect(messages[0], textEl);
 
 function nextMessage() {
-    if(index === 0){
-        document.getElementById("music").play();
+    if(index === 0) {
+        music.play().catch(e => console.log("Audio play blocked"));
     }
 
     index++;
     if (index < messages.length) {
         typeEffect(messages[index], textEl);
     } else {
-        document.getElementById("extra").classList.remove("hidden");
-        document.getElementById("extra").innerText =
-        "I just didn’t like seeing you not smile 💛";
+        textEl.style.display = "none";
+        btnEl.style.display = "none";
+        extraEl.classList.remove("hidden");
+        // Added a lotus here too for the final touch
+        extraEl.innerHTML = "I just didn’t like seeing you not smile 🪷";
     }
 }
 
-// Floating hearts
-setInterval(() => {
-    let heart = document.createElement("div");
-    heart.className = "heart";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.innerText = "💖";
-    document.body.appendChild(heart);
+// Lotus and Heart floating effect
+function createFloatingElement() {
+    const el = document.createElement("div");
+    el.className = "heart"; // Keeping class name for CSS consistency
+    
+    // Primary focus on the Lotus
+    const symbols = ["🪷", "🪷", "💖", "✨", "🪷"]; 
+    el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+    
+    el.style.left = Math.random() * 100 + "vw";
+    el.style.fontSize = (Math.random() * 20 + 15) + "px";
+    el.style.opacity = Math.random() * 0.6 + 0.4;
+    el.style.animation = `floatUp ${Math.random() * 4 + 5}s linear forwards`;
+    
+    document.body.appendChild(el);
 
-    setTimeout(() => {
-        heart.remove();
-    }, 6000);
-}, 500);
+    setTimeout(() => { el.remove(); }, 7000);
+}
+
+setInterval(createFloatingElement, 450);
 </script>
 
 </body>
-</html>
